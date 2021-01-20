@@ -26,6 +26,8 @@ function Carousel(props) {
   const card = props.cardData[cardIdx];
   const total = props.cardData.length;
 
+  // TODO: Change so arrows change based on if beginning or ending cardIdx
+  // Put if condition in return render using ternary
   /** Function that sets useStates right arrow clicked */
   function goForward() {
     if (cardIdx === 1) {      // next time cardIdx === 2

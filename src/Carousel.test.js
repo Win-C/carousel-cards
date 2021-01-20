@@ -6,6 +6,11 @@ it("smoke test - renders without crashing", function () {
   render(<Carousel />);
 });
 
+it("snapshot test - matches snapshot", function () {
+  const { container } = render(<Carousel />);
+  expect(container).toMatchSnapshot();
+});
+
 it("works when you click on the right arrow", function() {
   const { queryByTestId, queryByAltText } = render(<Carousel />);
 
@@ -66,9 +71,4 @@ it("left and right arrow visibility when looping through images", function() {
   // right arrow is hidden and left arrow is visible
   expect(rightArrow.getAttribute("style")).toContain("hidden");
   expect(leftArrow.getAttribute("style")).toContain("visible");
-});
-
-it("snapshot test - matches snapshot", function () {
-  const { container } = render(<Carousel />);
-  expect(container).toMatchSnapshot();
 });

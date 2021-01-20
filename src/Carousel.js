@@ -5,18 +5,59 @@ import image2 from "./image2.jpg";
 import image3 from "./image3.jpg";
 import Card from "./Card";
 
+/** Carousel
+ *  
+ *  Props: 
+ *  - cardData: [{src, caption}, ...]
+ *  - title
+ * 
+ *  State:
+ *  - cardIdx: 
+ *  - leftArrow: hidden (default) / visible
+ *  - rightArrow: hidden / visible (default)
+ *  
+ *  App -> Carousel -> Card 
+ * 
+ */
 function Carousel(props) {
   const [cardIdx, setCardIdx] = useState(0);
+  const [leftArrow, setLeftArrow] = useState("hidden");
+  const [rightArrow, setRightArrow] = useState("visible");
   const card = props.cardData[cardIdx];
   const total = props.cardData.length;
 
+  /** Function that sets useStates right arrow clicked */
   function goForward() {
-    const updateVal = (cardIdx === (total - 1)) ? 0 : cardIdx + 1;
-    setCardIdx(updateVal);
+    if (cardIdx === 1) {      // next time cardIdx === 2
+      setRightArrow("hidden");
+      setLeftArrow("visible");
+      setCardIdx(cardIdx + 1);
+    } else if (cardIdx === 0){ // next time cardIdx === 1
+      setRightArrow("visible");
+      setLeftArrow("visible");
+      setCardIdx(cardIdx + 1);
+    } else {                      // next time cardIdx === 0
+      setRightArrow("visible");
+      setLeftArrow("hidden");
+      setCardIdx(cardIdx + 1);
+    }
   }; 
+
+ /** Function that sets useStates left arrow clicked */
   function goBackward() {
-    const updateVal = (cardIdx === 0) ? total - 1 : cardIdx - 1;
-    setCardIdx(updateVal);
+    if (cardIdx === 1) {  // next time cardIdx === 0 
+      setRightArrow("visible");
+      setLeftArrow("hidden");
+      setCardIdx(0);
+    } else if (cardIdx === 2) {  // next time cardIdx === 1
+      setRightArrow("visible");
+      setLeftArrow("visible");
+      setCardIdx(cardIdx - 1);
+    } else {                      // next time cardIdx === 2
+      setRightArrow("hidden");
+      setLeftArrow("visible");
+      setCardIdx(cardIdx - 1);
+    }
   };
 
   return (
@@ -27,6 +68,7 @@ function Carousel(props) {
           className="fas fa-chevron-circle-left fa-2x"
           onClick={goBackward}
           data-testid="left-arrow"
+          style={{visibility: leftArrow}}
         />
         <Card
           caption={card.caption}
@@ -38,6 +80,7 @@ function Carousel(props) {
           className="fas fa-chevron-circle-right fa-2x"
           onClick={goForward}
           data-testid="right-arrow"
+          style={{visibility: rightArrow}}
         />
       </div>
     </div>

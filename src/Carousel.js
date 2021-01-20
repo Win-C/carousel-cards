@@ -9,7 +9,15 @@ function Carousel(props) {
   const [cardIdx, setCardIdx] = useState(0);
   const card = props.cardData[cardIdx];
   const total = props.cardData.length;
-  const goForward = () => setCardIdx(cardIdx + 1);
+
+  function goForward() {
+    const updateVal = (cardIdx === (total - 1)) ? 0 : cardIdx + 1;
+    setCardIdx(updateVal);
+  }; 
+  function goBackward() {
+    const updateVal = (cardIdx === 0) ? total - 1 : cardIdx - 1;
+    setCardIdx(updateVal);
+  };
 
   return (
     <div className="Carousel">
@@ -17,7 +25,7 @@ function Carousel(props) {
       <div className="Carousel-main">
         <i
           className="fas fa-chevron-circle-left fa-2x"
-          onClick={goForward}
+          onClick={goBackward}
           data-testid="left-arrow"
         />
         <Card

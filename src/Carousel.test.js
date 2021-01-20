@@ -2,22 +2,8 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import Carousel from "./Carousel";
 
-const testProps = {
-  cardData: [
-    {
-      src: "imageTest1",
-      caption: "captionTest1"
-    },
-    {
-      src: "imageTest2",
-      caption: "captionTest2"
-    }
-  ],
-  title: "titleTest."
-};
-
 it("smoke test - renders without crashing", function () {
-  render(<Carousel props = {testProps}/>);
+  render(<Carousel />);
 });
 
 it("works when you click on the right arrow", function() {
@@ -36,7 +22,24 @@ it("works when you click on the right arrow", function() {
   expect(queryByAltText("Photo by Pratik Patel on Unsplash")).toBeInTheDocument();
 });
 
+
+it("works when you click on the left arrow", function() {
+  const { queryByTestId, queryByAltText } = render(<Carousel />);
+
+  // expect the first image to show, but not the second
+  expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).toBeInTheDocument();
+  expect(queryByAltText("Photo by Josh Post on Unsplash")).not.toBeInTheDocument();
+
+  // move backward in the carousel
+  const leftArrow = queryByTestId("left-arrow");
+  fireEvent.click(leftArrow);
+
+  // expect the third image to show, but not the first
+  expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).not.toBeInTheDocument();
+  expect(queryByAltText("Photo by Josh Post on Unsplash")).toBeInTheDocument();
+});
+
 it("snapshot test - matches snapshot", function () {
-  const { container } = render(<Carousel props = {testProps}/>);
+  const { container } = render(<Carousel />);
   expect(container).toMatchSnapshot();
 });
